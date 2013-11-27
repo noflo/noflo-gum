@@ -1,0 +1,23 @@
+{
+  "name": "noflo-gum",
+  "version": "0.0.0",
+  "description": "getUserMedia components for getting webcam and mic into NoFlo",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:forresto/noflo-gum.git"
+  },
+  "keywords": [
+    "noflo",
+    "getusermedia",
+    "cam",
+    "webcam",
+    "mic",
+    "microphone"
+  ],
+  "author": "Forrest Oliphant",
+  "license": "MIT"
+}
