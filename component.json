@@ -10,8 +10,7 @@
     "noflo/noflo": "*"
   },
   "scripts": [
-    "components/GetUserMedia.coffee",
-    "index.js"
+    "components/GetUserMedia.coffee"
   ],
   "json": [
     "component.json"
