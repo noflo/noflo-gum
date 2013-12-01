@@ -61,11 +61,13 @@ class GetUserMedia extends noflo.Component
             window.msURL ||
             window.oURL ||
             null)
-        if window.URL.createObjectURL
-          @outPorts.url.send window.URL.createObjectURL(stream)
-        else
-          @outPorts.url.send stream
-        @outPorts.stream.send stream
+        if @outPorts.url.isAttached()
+          if window.URL.createObjectURL
+            @outPorts.url.send window.URL.createObjectURL(stream)
+          else
+            @outPorts.url.send stream
+        if @outPorts.stream.isAttached()
+          @outPorts.stream.send stream
       , () =>
         @error 'Camera access denied.'
 
