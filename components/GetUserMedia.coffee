@@ -78,4 +78,8 @@ class GetUserMedia extends noflo.Component
       return
     throw new Error msg
 
+  shutdown: ->
+    @stopStream()
+
+
 exports.getComponent = -> new GetUserMedia
