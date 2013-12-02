@@ -69,7 +69,7 @@ class GetUserMedia extends noflo.Component
         if @outPorts.stream.isAttached()
           @outPorts.stream.send stream
       , () =>
-        @error 'Camera access denied.'
+        @error 'Access denied or no device available.'
 
   error: (msg) ->
     if @outPorts.error.isAttached()
