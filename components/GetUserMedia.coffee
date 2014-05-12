@@ -8,15 +8,22 @@ class GetUserMedia extends noflo.Component
     @audio = false
     @stream = null
     
-    @inPorts =
-      start: new noflo.Port 'bang'
-      stop: new noflo.Port 'bang'
-      video: new noflo.Port 'boolean'
-      audio: new noflo.Port 'boolean'
-    @outPorts =
-      stream: new noflo.Port 'object'
-      url: new noflo.Port 'string'
-      error: new noflo.Port 'object'
+    @inPorts = new noflo.InPorts
+      start:
+        datatype: 'bang'
+      stop:
+        datatype: 'bang'
+      video:
+        datatype: 'boolean'
+      audio:
+        datatype: 'boolean'
+    @outPorts = new noflo.OutPorts
+      stream:
+        datatype: 'object'
+      url:
+        datatype: 'string'
+      error:
+        datatype: 'object'
 
     @inPorts.start.on 'data', () =>
       @resetStream()
@@ -37,31 +44,34 @@ class GetUserMedia extends noflo.Component
 
     @resetStream = () =>
       @stopStream()
+      unless navigator?
+        @error 'navigator not available.'
+        return
       # Shim
-      unless navigator.getUserMedia
+      unless navigator.getUserMedia?
         navigator.getUserMedia = (
           navigator.webkitGetUserMedia ||
           navigator.mozGetUserMedia ||
           navigator.msGetUserMedia ||
           null)
-      unless navigator.getUserMedia
+      unless navigator.getUserMedia?
         # In higher-level graph should provide option to chose image
         # with file picker here. This will make it work on mobile etc.
-        @error 'getUserMedia not available in this browser.'
+        @error 'navigator.getUserMedia not available.'
         return
 
       navigator.getUserMedia
         video: @video
         audio: @audio
       , (@stream) =>
-        unless window.URL
-          # Shim
-          window.URL = (
-            window.webkitURL ||
-            window.msURL ||
-            window.oURL ||
-            null)
         if @outPorts.url.isAttached()
+          # Shim
+          unless window.URL?
+            window.URL = (
+              window.webkitURL ||
+              window.msURL ||
+              window.oURL ||
+              null)
           if window.URL.createObjectURL
             @outPorts.url.send window.URL.createObjectURL(stream)
           else
