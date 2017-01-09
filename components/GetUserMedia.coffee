@@ -1,5 +1,7 @@
 noflo = require 'noflo'
 
+# @runtime noflo-browser
+
 class GetUserMedia extends noflo.Component
   description: 'initialize camera and/or microphone'
   icon: 'video-camera'
