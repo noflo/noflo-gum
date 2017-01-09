@@ -1,5 +1,7 @@
 noflo = require 'noflo'
 
+# @runtime noflo-browser
+
 class GetUserMedia extends noflo.Component
   description: 'initialize camera and/or microphone'
   icon: 'video-camera'
@@ -54,7 +56,7 @@ class GetUserMedia extends noflo.Component
           navigator.mozGetUserMedia ||
           navigator.msGetUserMedia ||
           null)
-      unless navigator.getUserMedia?
+      unless navigator.getUserMedia
         # In higher-level graph should provide option to chose image
         # with file picker here. This will make it work on mobile etc.
         @error 'navigator.getUserMedia not available.'

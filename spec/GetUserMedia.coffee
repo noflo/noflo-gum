@@ -1,24 +1,31 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
-  chai = require 'chai' unless chai
-  GetUserMedia = require '../components/GetUserMedia.coffee'
+  chai = require 'chai'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
 else
-  GetUserMedia = require 'noflo-gum/components/GetUserMedia.js'
-
+  baseDir = 'noflo-gum'
 
 describe 'GetUserMedia component', ->
   c = null
   s_start = null
   s_url = null
   s_error = null
-  beforeEach ->
-    c = GetUserMedia.getComponent()
-    s_start = noflo.internalSocket.createSocket()
-    s_url = noflo.internalSocket.createSocket()
-    s_error = noflo.internalSocket.createSocket()
-    c.inPorts.start.attach s_start
-    c.outPorts.url.attach s_url
-    c.outPorts.error.attach s_error
+  loader = null
+  before ->
+    loader = new noflo.ComponentLoader baseDir
+  beforeEach (done) ->
+    @timeout 4000
+    loader.load 'gum/GetUserMedia', (err, instance) ->
+      return done err if err
+      c = instance
+      s_start = noflo.internalSocket.createSocket()
+      s_url = noflo.internalSocket.createSocket()
+      s_error = noflo.internalSocket.createSocket()
+      c.inPorts.start.attach s_start
+      c.outPorts.url.attach s_url
+      c.outPorts.error.attach s_error
+      done()
 
   describe 'when instantiated', ->
     it 'should have four input ports', ->
@@ -36,6 +43,8 @@ describe 'GetUserMedia component', ->
       # Can't be tested without interaction
       it 'should make a url on permission', (done) ->
         @timeout 10000
+        s_error.once "data", (err) ->
+          done err
         s_url.once "data", (url) ->
           chai.expect(url).to.be.a 'string'
           done()
@@ -43,5 +52,5 @@ describe 'GetUserMedia component', ->
     else
       it 'should send an error that gum isn\'t available', ->
         s_error.once "data", (err) ->
-          chai.expect(err).to.be.an 'object'
+          chai.expect(err).to.be.an 'error'
         s_start.send true
