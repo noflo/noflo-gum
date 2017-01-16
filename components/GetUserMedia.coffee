@@ -65,7 +65,8 @@ class GetUserMedia extends noflo.Component
       navigator.getUserMedia
         video: @video
         audio: @audio
-      , (@stream) =>
+      , (stream) =>
+        @stream = stream
         if @outPorts.url.isAttached()
           # Shim
           unless window.URL?
@@ -92,6 +93,5 @@ class GetUserMedia extends noflo.Component
 
   shutdown: ->
     @stopStream()
-
 
 exports.getComponent = -> new GetUserMedia
