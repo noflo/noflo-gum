@@ -49,30 +49,23 @@ exports.getComponent = ->
     # Stop previous stream, if any
     stopStream()
 
-    unless navigator?
-      output.done new Error 'navigator not available.'
+    unless navigator?.mediaDevices
+      output.done new Error 'navigator.mediaDevices not available.'
       return
-    # Shim
-    unless navigator.getUserMedia?
-      navigator.getUserMedia = (
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia ||
-        null)
-    unless navigator.getUserMedia
+    unless navigator?.mediaDevices.getUserMedia
       # In higher-level graph should provide option to chose image
       # with file picker here. This will make it work on mobile etc.
-      output.done new Error 'navigator.getUserMedia not available.'
+      output.done new Error 'navigator.mediaDevices.getUserMedia not available.'
       return
 
     video = if input.hasData('video') then input.getData('video') else true
     audio = if input.hasData('audio') then input.getData('audio') else false
 
-    navigator.getUserMedia
+    navigator.mediaDevices.getUserMedia
       video: video
       audio: audio
-    , (strm) ->
-      stream = strm
+    .then (mediaStream) ->
+      stream = mediaStream
       ctx = context
 
       # Shim
