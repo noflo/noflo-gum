@@ -45,7 +45,7 @@ describe('GetUserMedia component', () => {
       it('should make a url on permission', function (done) {
         this.timeout(10000);
         sError.once('data', (err) => {
-          console.log(err.message);
+          console.log(err.code);
           chai.expect(err.message).to.equal('Requested device not found');
           done();
         });
