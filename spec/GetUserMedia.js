@@ -40,22 +40,6 @@ describe('GetUserMedia component', () => {
   });
 
   describe('when started', () => {
-    if ((typeof navigator !== 'undefined' && navigator !== null) && (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia)) {
-      // Can't be tested without interaction
-      it('should make a url on permission', function (done) {
-        this.timeout(10000);
-        sError.once('data', (err) => {
-          console.log(err.code);
-          chai.expect(err.message).to.equal('Requested device not found');
-          done();
-        });
-        sUrl.once('data', (url) => {
-          chai.expect(url).to.be.a('string');
-          done();
-        });
-        sStart.send(true);
-      });
-    }
     it('should send an error that gum isn\'t available', () => {
       sError.once('data', err => chai.expect(err).to.be.an('error'));
       sStart.send(true);
