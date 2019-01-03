@@ -22,12 +22,15 @@ exports.getComponent = () => {
     control: true,
     default: false,
   });
-  c.outPorts.add('stream',
-    { datatype: 'object' });
-  c.outPorts.add('url',
-    { datatype: 'string' });
-  c.outPorts.add('error',
-    { datatype: 'object' });
+  c.outPorts.add('stream', {
+    datatype: 'object',
+  });
+  c.outPorts.add('url', {
+    datatype: 'string',
+  });
+  c.outPorts.add('error', {
+    datatype: 'object',
+  });
 
   let stream = null;
   let ctx = null;
