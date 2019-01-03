@@ -1,13 +1,13 @@
 language: node_js
 node_js:
-- 'lts/*'
+- lts/*
 before_script:
 - npm run build
 deploy:
   provider: npm
   email: henri.bergius@iki.fi
   api_key:
-    secure: J18alh6S2STuSmobX2FB+YfBxWPUDiKwZkHeSW/JfDR4PplzUqAe0TwjekaIIZjnHJFFrCUB4QZInGMQPJsEzJDZx0fPT+tqcYy4wurYDvGuBhFeuYfnc/LqqvzECZ8cHIcbnQ9/vfbt5RF7h7pnbntlGhW2lBCh4rH6JBwZtbo=
+    secure: JAreqGLEqpXoKncH7oyy/kUvxuR5b1Hvwzm51bzSKFpmWT56k54ea9kBLoGR9QnbdEc/obswvxTte1OE6tDZkkm5Z7xtNWxYtCcviJGx52IRFseAw6nkLnJFZwQhFPPJubaaGBxpe3lOuXnDy9iEE6cDcJATWBKx9htBqHKspYM=
   on:
     tags: true
     repo: noflo/noflo-gum
