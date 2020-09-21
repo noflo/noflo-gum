@@ -97,7 +97,7 @@ exports.getComponent = () => {
       }
       return output.send({ stream });
     },
-    err => output.done(err));
+    (err) => output.done(err));
   });
 
   return c;
