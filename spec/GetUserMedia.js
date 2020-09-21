@@ -41,7 +41,7 @@ describe('GetUserMedia component', () => {
 
   describe('when started', () => {
     it('should send an error that gum isn\'t available', () => {
-      sError.once('data', err => chai.expect(err).to.be.an('error'));
+      sError.once('data', (err) => chai.expect(err).to.be.an('error'));
       sStart.send(true);
     });
   });
